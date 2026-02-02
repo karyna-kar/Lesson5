@@ -2,16 +2,29 @@
 // Саму задачу обернуть в отдельную функцию getDate, которая принимает в качестве параметра произвольную дату в формате '2026-10-22T22:10:15'
 //* Проверить валидна ли дата в переданном параметре
 
-const now: Date = new Date();
+const convertToString = (parameter: number) => {
+  return parameter.toString().padStart(2, "0");
+};
 
-const day = now.getDate().toString().padStart(2, "0");
-const month = (now.getMonth() + 1).toString().padStart(2, "0");
-const year = now.getFullYear();
+const checkFormat = (inputString: string) => {
+  const pattern = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
+  return pattern.test(inputString);
+};
 
-const hours = now.getHours().toString().padStart(2, "0");
-const minutes = now.getMinutes().toString().padStart(2, "0");
-const seconds = now.getSeconds().toString().padStart(2, "0");
+const getDate = (dateString: string) => {
+  if (checkFormat(dateString) == true) {
+    const date = new Date(dateString);
+    const day = convertToString(date.getDate());
+    const month = convertToString(date.getMonth() + 1);
+    const year = convertToString(date.getFullYear());
+    const hours = convertToString(date.getHours());
+    const minutes = convertToString(date.getMinutes());
+    const seconds = convertToString(date.getSeconds());
 
-const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    return formattedDate;
+  }
+  return "Used Date doesn't match specified format";
+};
 
-console.log(formattedDate);
+console.log(getDate("2026-10-22T22:10:15"));
